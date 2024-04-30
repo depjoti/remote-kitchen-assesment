@@ -1,95 +1,96 @@
-import Image from "next/image";
-import styles from "./page.module.css";
 
-export default function Home() {
+'use client';
+import React, { useEffect, useState } from 'react';
+import { Typography, Grid, Box, Button, Modal, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import AddFoodForm from './components/AddFoodForm';
+import FoodCard from './components/FoodCard';
+import { useFoodItems, useFoodActions } from '../lib/hooks';
+import { FoodItem } from './types';
+
+const Page: React.FC = () => {
+  const foodItems = useFoodItems();
+  const { setItems } = useFoodActions();
+  const [editFormData, setEditFormData] = useState<FoodItem | null>(null);
+  const [dataFetched, setDataFetched] = useState(false);
+  const [showAddFoodModal, setShowAddFoodModal] = useState(false);
+
+  useEffect(() => {
+    if (!dataFetched) {
+      fetch('http://localhost:5000/foodItems')
+        .then((response) => response.json())
+        .then((data: FoodItem[]) => {
+          setItems(data);
+          setDataFetched(true);
+        })
+        .catch((error) => console.error('Error fetching data:', error));
+    }
+  }, [dataFetched, setItems]);
+
+  const handleEditFoodItem = (foodItem: FoodItem) => {
+    setEditFormData(foodItem);
+    setShowAddFoodModal(true);
+  };
+
+  const handleToggleModal = () => {
+    setShowAddFoodModal(!showAddFoodModal);
+    setEditFormData(null);
+  };
+
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Box minHeight="100vh" padding={2}>
+      <Typography variant="h4" gutterBottom>
+        Food Items
+      </Typography>
+
+      <Grid container spacing={2}>
+        {foodItems.map((item: FoodItem) => (
+          <Grid item key={item.id} xs={12} sm={6} md={4} lg={3}>
+            <FoodCard foodItem={item} onEdit={() => handleEditFoodItem(item)} />
+          </Grid>
+        ))}
+      </Grid>
+      <Box sx={{ m: 2, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Button variant="contained" onClick={handleToggleModal}>
+          {' '}
+          Add Food
+        </Button>
+      </Box>
+
+
+      <Modal open={showAddFoodModal} onClose={handleToggleModal}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '90%',
+            maxWidth: '500px',
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <IconButton
+            sx={{
+              position: 'absolute',
+              top: '8px',
+              right: '8px',
+            }}
+            onClick={handleToggleModal}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+            <CloseIcon />
+          </IconButton>
+          <AddFoodForm initialData={editFormData} onClose={handleToggleModal} />
+        </Box>
+      </Modal>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    </Box>
   );
-}
+};
+
+export default Page;
+
+
