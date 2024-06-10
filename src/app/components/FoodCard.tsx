@@ -11,15 +11,16 @@ interface FoodCardProps {
 }
 
 const FoodCard: React.FC<FoodCardProps> = ({ foodItem, onEdit }) => {
-  const { deleteItem } = useFoodActions();
+  const { deleteItem, fetchItems } = useFoodActions();
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
   const handleDelete = () => {
     setConfirmDelete(true);
   };
 
-  const handleConfirmDelete = () => {
-    deleteItem(foodItem.id);
+  const handleConfirmDelete = async () => {
+    await deleteItem(foodItem.id);
+    await fetchItems(); // Ensure UI refreshes after deletion
     setConfirmDelete(false);
   };
 
@@ -90,4 +91,3 @@ const FoodCard: React.FC<FoodCardProps> = ({ foodItem, onEdit }) => {
 };
 
 export default FoodCard;
-

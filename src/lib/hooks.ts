@@ -48,5 +48,3 @@ export const useFoodActions = () => {
   return { setItems, fetchItems, addItem, deleteItem, editItem };
 };
 
-
-

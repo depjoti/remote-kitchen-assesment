@@ -68,7 +68,7 @@ const AddFoodForm: React.FC<AddFoodFormProps> = ({ initialData, onClose }) => {
     }
 
     setFormData({
-      id: 0,
+      id: '',
       name: '',
       description: '',
       price: 0,
@@ -144,3 +144,4 @@ const AddFoodForm: React.FC<AddFoodFormProps> = ({ initialData, onClose }) => {
 };
 
 export default AddFoodForm;
+

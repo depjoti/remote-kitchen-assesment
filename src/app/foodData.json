@@ -18,14 +18,14 @@
       "id": "3",
       "name": "Sushi Platter",
       "description": "Assorted selection of fresh sushi rolls including salmon, tuna, and California rolls.",
-      "price": 18.5,
+      "price": 16.5,
       "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=800&h=600&fit=crop"
     },
     {
       "id": "4",
       "name": "Spaghetti Bolognese",
       "description": "Spaghetti pasta served with a rich beef and tomato sauce, garnished with Parmesan cheese.",
-      "price": 10.5,
+      "price": 11.5,
       "imageUrl": "https://images.unsplash.com/photo-1551892374-ecf8754cf8b0?q=80&w=800&h=600&fit=crop"
     },
     {
@@ -50,32 +50,53 @@
       "imageUrl": "https://images.unsplash.com/photo-1606313564573-104197cf8f91?q=80&w=800&h=600&fit=crop"
     },
     {
-      "id": "298008",
+      "id": "9",
       "name": "Biriyani",
       "description": "Subcontinental food",
       "price": 255,
       "imageUrl": "https://images.unsplash.com/photo-1630409346824-4f0e7b080087?q=80&w=2146&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
-      "id": "893060",
+      "id": "10",
       "name": "Icecream",
       "description": "Vanilla Flavor",
       "price": 65,
       "imageUrl": "https://images.unsplash.com/photo-1560008581-09826d1de69e?q=80&w=1944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
-      "id": "24367",
+      "id": "11",
       "name": "Bread",
       "description": "Breakfast",
       "price": 18,
       "imageUrl": "https://images.unsplash.com/photo-1611319560496-722f9ace78b8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
-      "id": "880642",
+      "id": "12",
       "name": "Yogurt",
-      "description": "Dessert",
-      "price": 15,
+      "description": "Curd",
+      "price": 20,
       "imageUrl": "https://images.unsplash.com/photo-1571212515416-fef01fc43637?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": "17",
+      "name": "Yogurt3",
+      "description": "sdf",
+      "price": 54,
+      "imageUrl": "https://images.unsplash.com/photo-1571212515416-fef01fc43637?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": "920127",
+      "name": "Rnadom khabar",
+      "description": "Random description",
+      "price": 65,
+      "imageUrl": "https://images.unsplash.com/photo-1560008581-09826d1de69e?q=80&w=1944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "id": "603577",
+      "name": "zxczxc",
+      "description": "zxczxc",
+      "price": 6,
+      "imageUrl": "https://images.unsplash.com/photo-1560008581-09826d1de69e?q=80&w=1944&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     }
   ]
 }

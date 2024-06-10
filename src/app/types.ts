@@ -1,6 +1,7 @@
+import { StringDecoder } from "string_decoder";
 
 export interface FoodItem {
-  id: number;
+  id: string;
   name: string;
   description: string;
   price: number;

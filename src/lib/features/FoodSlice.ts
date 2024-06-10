@@ -2,27 +2,43 @@ import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { FoodItem } from '../../app/types';
 
 export const fetchFoodItemsAsync = createAsyncThunk('food/fetchFoodItems', async () => {
-  const response = await fetch('http://localhost:5000/foodItems');
+  const response = await fetch('http://localhost:5000/foodItems',{
+    method: 'GET',
+    headers: { 
+      'Content-Type': 'application/json',
+      
+     
+     },
+  });
   return await response.json();
 });
 
 export const addFoodItemAsync = createAsyncThunk('food/addFoodItem', async (item: FoodItem) => {
   const response = await fetch('http://localhost:5000/foodItems', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+     },
     body: JSON.stringify(item),
   });
   return await response.json();
 });
+
 
 export const updateFoodItemAsync = createAsyncThunk(
   'food/editFoodItem',
   async (updatedItem: FoodItem) => {
     const response = await fetch(`http://localhost:5000/foodItems/${updatedItem.id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+         'Content-Type': 'application/json',
+        
+         },
       body: JSON.stringify(updatedItem),
     });
+    if (!response.ok) {
+      throw new Error('Failed to update item');
+    }
     return await response.json();
   }
 );
@@ -30,7 +46,16 @@ export const updateFoodItemAsync = createAsyncThunk(
 export const deleteFoodItemAsync = createAsyncThunk(
   'food/deleteFoodItem',
   async (itemId: number) => {
-    await fetch(`http://localhost:5000/foodItems/${itemId}`, { method: 'DELETE' });
+    const response = await fetch(`http://localhost:5000/foodItems/${itemId}`, { 
+      method: 'DELETE' ,
+      headers: {
+        'Content-Type': 'application/json',
+       
+        },
+    });
+    if (!response.ok) {
+      throw new Error('Failed to update item');
+    }
     return itemId;
   }
 );
@@ -52,7 +77,7 @@ const foodSlice = createSlice({
   initialState,
   reducers: {
     setFoodItems(state, action: PayloadAction<FoodItem[]>) {
-      state.foodItems = action.payload;
+       state.foodItems = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -84,6 +109,10 @@ const foodSlice = createSlice({
     });
 
     // Handle re-fetch on rejection to keep state consistent
+    builder.addCase(fetchFoodItemsAsync.rejected, (state, action) => {
+      state.loading = 'rejected';
+      state.error = action.error.message || 'Failed to fetch food items';
+    });
     builder.addCase(addFoodItemAsync.rejected, (state, action) => {
       state.error = action.error.message || 'An error occurred while adding the item';
       state.loading = 'rejected';
