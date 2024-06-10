@@ -1,6 +1,6 @@
 # **Answer of First Assesment**
 
-## Naming the Hotfix Branch:
+### 1. Naming the Hotfix Branch:
 
 1. Identify the Issue: First, identify the specific issue or bug that requires a hotfix. This could be a critical bug affecting the production environment.
 
@@ -18,7 +18,7 @@ Then I pull from ‘main or master’ branch
 
 ``` ‘git pull origin main’ ```
 
-## Creating a Pull Request and Merging with the Production Branch:
+### 2. Creating a Pull Request and Merging with the Production Branch:
 
 1. Push Changes: Once i did my work on the hotfix branch, ensure my changes are committed and pushed to the remote repository.
 ```
