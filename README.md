@@ -12,20 +12,20 @@ Example: Let's say  fixing a critical bug related to order processing. I could n
 
 First of all I create a branch name write this command:
 
-‘git checkout -b hotfix/dep-order-processing-bug’
+``` git checkout -b hotfix/dep-order-processing-bug ```
 
 Then I pull from ‘main or master’ branch
 
-‘git pull origin main’
+``` ‘git pull origin main’ ```
 
 ## Creating a Pull Request and Merging with the Production Branch:
 
 1. Push Changes: Once i did my work on the hotfix branch, ensure my changes are committed and pushed to the remote repository.
-
+```
 ‘git add . ’
 ‘git commit -m “fix: order processing bug” ‘
 ‘git push origin hotfix/dep-order-processing-bug’
-
+```
 
 2. Create Pull Request (PR): Go to the repository hosting platform (e.g., GitHub) and create a new pull request.
 
@@ -38,11 +38,11 @@ If I have merge permissions, I can merge the PR myself.
 Otherwise, request a team member with merge permissions to do it for me.
 
 7.Delete Hotfix Branch: After merging, delete my hotfix branch both locally and remotely to keep the repository clean.
-
+```
 ‘git checkout main’  # Switch to the production branch
 ‘git branch -d  hotfix/dep-order-processing-bug’  # Delete the local branch
 ‘git push origin --delete hotfix/dep-order-processing-bug’ # Delete the remote branch
-
+```
 8.Update Local Production Branch: Finally, pull the changes from the remote production branch to ensure my local copy is up to date.
 
 ‘git pull origin main’
@@ -62,7 +62,7 @@ By following these detailed steps, I can effectively name my hotfix branch, crea
 This approach ensures that the data is organized properly, with each category containing an array of menu items along with their details.
 
 Here's how the restructured data might look:
-
+```
  const restructuredDummyArray = [
   {
     type: "Vegetarian",
@@ -89,7 +89,7 @@ Here's how the restructured data might look:
     ]
   }
 ];
-
+```
 In this restructured data, each menu collection contains an array of categories, and each category contains an array of menu items with their details (ID and name). This structure clearly shows which menu items belong to which category.
 
 
