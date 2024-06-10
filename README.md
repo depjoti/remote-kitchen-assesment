@@ -1,6 +1,6 @@
 # **Answer of First Assesment**
 
- ## Naming the Hotfix Branch:
+## Naming the Hotfix Branch:
 
 1. Identify the Issue: First, identify the specific issue or bug that requires a hotfix. This could be a critical bug affecting the production environment.
 
@@ -63,7 +63,7 @@ This approach ensures that the data is organized properly, with each category co
 
 Here's how the restructured data might look:
 
-``` const restructuredDummyArray = [
+ const restructuredDummyArray = [
   {
     type: "Vegetarian",
     category: [
@@ -88,7 +88,7 @@ Here's how the restructured data might look:
       }
     ]
   }
-]; ```
+];
 
 In this restructured data, each menu collection contains an array of categories, and each category contains an array of menu items with their details (ID and name). This structure clearly shows which menu items belong to which category.
 
