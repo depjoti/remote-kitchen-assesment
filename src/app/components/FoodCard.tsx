@@ -32,14 +32,25 @@ const FoodCard: React.FC<FoodCardProps> = ({ foodItem, onEdit }) => {
   const formattedPrice = isNaN(price) ? 'Price not available' : `$${price.toFixed(2)}`;
 
   return (
-    <Card variant="outlined">
-      <CardContent>
+    <Card variant="outlined" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <CardContent style={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
         <Typography variant="h5" component="div">
           {foodItem.name}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" style={{ flexGrow: 1 }}>
           {foodItem.description}
         </Typography>
+        <img
+          src={foodItem.imageUrl}
+          alt={foodItem.name}
+          style={{
+            maxWidth: '100%',
+            maxHeight: '200px',
+            marginTop: 8,
+            objectFit: 'cover',
+            borderRadius: 4,
+          }}
+        />
         <Grid container justifyContent="space-between" alignItems="center" marginTop={1}>
           <Grid item>
             <Typography variant="h6" component="span">

@@ -1,13 +1,12 @@
-// src/app/types.ts
-
-// src/app/types.ts
 
 export interface FoodItem {
   id: number;
   name: string;
   description: string;
   price: number;
+  imageUrl: string;
 }
+
 
 export interface RootState {
   food: {
@@ -15,9 +14,3 @@ export interface RootState {
   };
 }
 
-// export interface Food {
-//     id: number;
-//     name: string;
-//     description: string;
-//   }
-  

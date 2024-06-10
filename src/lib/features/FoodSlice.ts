@@ -1,53 +1,39 @@
-
-
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../../lib/store';
 import { FoodItem } from '../../app/types';
 
-type AddFoodItemResponse = FoodItem;
+export const fetchFoodItemsAsync = createAsyncThunk('food/fetchFoodItems', async () => {
+  const response = await fetch('http://localhost:5000/foodItems');
+  return await response.json();
+});
 
-export const addFoodItemAsync = createAsyncThunk(
-  'food/addFoodItem',
-  async (item: FoodItem) => {
-    const response = await fetch('http://localhost:5000/foodItems', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(item),
-    });
-    const data = await response.json();
-    return data;
-  }
-);
+export const addFoodItemAsync = createAsyncThunk('food/addFoodItem', async (item: FoodItem) => {
+  const response = await fetch('http://localhost:5000/foodItems', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(item),
+  });
+  return await response.json();
+});
 
 export const updateFoodItemAsync = createAsyncThunk(
   'food/editFoodItem',
   async (updatedItem: FoodItem) => {
-    const response = await fetch('http://localhost:5000/foodItems/'+updatedItem.id, {
+    const response = await fetch(`http://localhost:5000/foodItems/${updatedItem.id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedItem),
     });
-    const data = await response.json();
-    return data;
+    return await response.json();
   }
 );
-
-
 
 export const deleteFoodItemAsync = createAsyncThunk(
   'food/deleteFoodItem',
   async (itemId: number) => {
-    await fetch('http://localhost:5000/foodItems/' + itemId, {
-      method: 'DELETE',
-    });
+    await fetch(`http://localhost:5000/foodItems/${itemId}`, { method: 'DELETE' });
     return itemId;
   }
 );
-
 
 interface FoodState {
   foodItems: FoodItem[];
@@ -70,51 +56,51 @@ const foodSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(addFoodItemAsync.pending, (state) => {
-        state.loading = 'pending';
-        state.error = null;
-      })
-      .addCase(addFoodItemAsync.fulfilled, (state, action) => {
-        state.loading = 'fulfilled';
-        state.error = null;
-        state.foodItems.push(action.payload);
-      })
-      .addCase(addFoodItemAsync.rejected, (state, action) => {
-        state.loading = 'rejected';
-        state.error = action.error.message || 'An error occurred';
-      })
-      .addCase(updateFoodItemAsync.pending, (state) => {
-        state.loading = 'pending';
-        state.error = null;
-      })
-      .addCase(updateFoodItemAsync.fulfilled, (state, action) => {
-        state.loading = 'fulfilled';
-        state.error = null;
-        state.foodItems = state.foodItems.map((item) =>
-          item.id === action.payload.id ? action.payload : item
-        );
-      })
-      .addCase(updateFoodItemAsync.rejected, (state, action) => {
-        state.loading = 'rejected';
-        state.error = action.error.message || 'An error occurred';
-      })
-      .addCase(deleteFoodItemAsync.pending, (state) => {
-        state.loading = 'pending';
-        state.error = null;
-      })
-      .addCase(deleteFoodItemAsync.fulfilled, (state, action) => {
-        state.loading = 'fulfilled';
-        state.error = null;
-        state.foodItems = state.foodItems.filter((item) => item.id !== action.payload);
-      })
-      .addCase(deleteFoodItemAsync.rejected, (state, action) => {
-        state.loading = 'rejected';
-        state.error = action.error.message || 'An error occurred';
-      });
+    builder.addCase(fetchFoodItemsAsync.fulfilled, (state, action) => {
+      state.foodItems = action.payload;
+      state.loading = 'fulfilled';
+      state.error = null;
+    });
+
+    builder.addCase(addFoodItemAsync.fulfilled, (state, action) => {
+      state.foodItems.push(action.payload);
+      state.loading = 'fulfilled';
+      state.error = null;
+    });
+
+    builder.addCase(updateFoodItemAsync.fulfilled, (state, action) => {
+      const index = state.foodItems.findIndex(item => item.id === action.payload.id);
+      if (index !== -1) {
+        state.foodItems[index] = action.payload;
+      }
+      state.loading = 'fulfilled';
+      state.error = null;
+    });
+
+    builder.addCase(deleteFoodItemAsync.fulfilled, (state, action) => {
+      state.foodItems = state.foodItems.filter(item => item.id !== action.payload);
+      state.loading = 'fulfilled';
+      state.error = null;
+    });
+
+    // Handle re-fetch on rejection to keep state consistent
+    builder.addCase(addFoodItemAsync.rejected, (state, action) => {
+      state.error = action.error.message || 'An error occurred while adding the item';
+      state.loading = 'rejected';
+    });
+
+    builder.addCase(updateFoodItemAsync.rejected, (state, action) => {
+      state.error = action.error.message || 'An error occurred while updating the item';
+      state.loading = 'rejected';
+    });
+
+    builder.addCase(deleteFoodItemAsync.rejected, (state, action) => {
+      state.error = action.error.message || 'An error occurred while deleting the item';
+      state.loading = 'rejected';
+    });
   },
 });
 
-export const { setFoodItems} = foodSlice.actions;
+export const { setFoodItems } = foodSlice.actions;
 export default foodSlice.reducer;
 

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './store';
 import { FoodItem } from '../app/types';
-import { setFoodItems, deleteFoodItemAsync, addFoodItemAsync,updateFoodItemAsync } from '../lib/features/FoodSlice';
+import { setFoodItems, fetchFoodItemsAsync, addFoodItemAsync, updateFoodItemAsync, deleteFoodItemAsync } from '../lib/features/FoodSlice';
 
 export const useFoodItems = () => {
   return useSelector((state: RootState) => state.food.foodItems);
@@ -14,17 +14,23 @@ export const useFoodActions = () => {
     dispatch(setFoodItems(items));
   };
 
+  const fetchItems = async () => {
+    await dispatch(fetchFoodItemsAsync());
+  };
+
   const addItem = async (item: FoodItem) => {
     try {
-      await dispatch(addFoodItemAsync(item));
+      await dispatch(addFoodItemAsync(item)).unwrap();
+      fetchItems(); // Re-fetch data after adding
     } catch (error) {
       console.error('Error adding item:', error);
     }
   };
+
   const editItem = async (updatedItem: FoodItem) => {
     try {
-      
-      await dispatch(updateFoodItemAsync(updatedItem));
+      await dispatch(updateFoodItemAsync(updatedItem)).unwrap();
+      fetchItems(); // Re-fetch data after updating
     } catch (error) {
       console.error('Error editing item:', error);
     }
@@ -32,12 +38,15 @@ export const useFoodActions = () => {
 
   const deleteItem = async (id: number) => {
     try {
-      await dispatch(deleteFoodItemAsync(id));
+      await dispatch(deleteFoodItemAsync(id)).unwrap();
+      fetchItems(); // Re-fetch data after deleting
     } catch (error) {
       console.error('Error deleting item:', error);
     }
   };
 
-  return { setItems, addItem, deleteItem,editItem };
+  return { setItems, fetchItems, addItem, deleteItem, editItem };
 };
+
+
 

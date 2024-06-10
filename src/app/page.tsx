@@ -10,22 +10,16 @@ import { FoodItem } from './types';
 
 const Page: React.FC = () => {
   const foodItems = useFoodItems();
-  const { setItems } = useFoodActions();
+  const { fetchItems } = useFoodActions();
   const [editFormData, setEditFormData] = useState<FoodItem | null>(null);
   const [dataFetched, setDataFetched] = useState(false);
   const [showAddFoodModal, setShowAddFoodModal] = useState(false);
 
   useEffect(() => {
     if (!dataFetched) {
-      fetch('http://localhost:5000/foodItems')
-        .then((response) => response.json())
-        .then((data: FoodItem[]) => {
-          setItems(data);
-          setDataFetched(true);
-        })
-        .catch((error) => console.error('Error fetching data:', error));
+      fetchItems().then(() => setDataFetched(true));
     }
-  }, [dataFetched, setItems]);
+  }, [dataFetched, fetchItems]);
 
   const handleEditFoodItem = (foodItem: FoodItem) => {
     setEditFormData(foodItem);
@@ -36,7 +30,6 @@ const Page: React.FC = () => {
     setShowAddFoodModal(!showAddFoodModal);
     setEditFormData(null);
   };
-
 
   return (
     <Box minHeight="100vh" padding={2}>
@@ -57,7 +50,6 @@ const Page: React.FC = () => {
           Add Food
         </Button>
       </Box>
-
 
       <Modal open={showAddFoodModal} onClose={handleToggleModal}>
         <Box
@@ -86,11 +78,9 @@ const Page: React.FC = () => {
           <AddFoodForm initialData={editFormData} onClose={handleToggleModal} />
         </Box>
       </Modal>
-
     </Box>
   );
 };
 
 export default Page;
-
 
